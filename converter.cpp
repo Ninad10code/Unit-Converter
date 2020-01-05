@@ -120,16 +120,30 @@ int main()
     int flag,l=1,count=1,l_pin,pin[28][10];
     int trace,l_odd=1,l_even=0,p_count=0;
     float container;
-    string  units[10]={"Km","m","ft","in","cm","hr","min","sec","km/hr","ft/sec"};
+    string  units[10]={"km","m","ft","in","cm","hr","min","sec","km/hr","ft/sec"};
+    string u1,u2;
     cout<<"CONVERTER\n";
-    cout<<"1 kilometer\n2 meter\n3 feet\n4 inches\n5 centimeter\n";
-    cout<<"6 hours\n7 minutes\n8 seconds\n";
-    cout<<"9 kilometers per hour\n10 feet per second\n";
-    cout<<"Enter the corresponding number infront of the quantity you want to compare\n";
-    cin>>q1>>q2;
     cout<<"Enter the value you want to convert\n";
     cin>>value;
     container=value;
+    cout<<"Enter the units you want to convert from\n";
+    cin>>u1>>u2;
+    
+    for (int i = 0; i < 10; i++)
+    {
+        if(u1==units[i])
+        {
+            q1=i+1;
+            
+        }
+        else if (u2==units[i])
+        {
+            q2=i+1;
+            
+        }
+        
+    }
+    
     ifstream fin;
     fin.open("path.txt");
     for (int  i = 0; i < 12; i++)
@@ -289,54 +303,5 @@ int main()
         }
         cout<<"Result: "<<container<<units[q1-1]<<" = "<<value<<units[q2-1]<<"\n";
     }
-    
-    
 
-    /*
-    switch (trace)
-    {   
-    case 1:
-        while (l_count<count)
-        {
-            flag=pin[index][l_odd];
-            l_odd=l_odd+2;
-            l_count++;
-        }
-        count++;
-        km_to_m(value,flag);
-        break;
-    case 2:
-        while (l_count<count)
-        {
-            flag=pin[index][l_odd];
-            l_odd=l_odd+2;
-            l_count++;
-        }
-        count++;
-        m_to_cm(value,flag);
-        break;
-    case 3:
-        while (l_count<count)
-        {
-            flag=pin[index][l_odd];
-            l_odd=l_odd+2;
-            l_count++;
-        }
-        count++;
-        ft_to_cm(value,flag);
-        break;
-    case 4:
-        while (l_count<count)
-        {
-            flag=pin[index][l_odd];
-            l_odd=l_odd+2;
-            l_count++;
-        }
-        count++; 
-        in_to_cm(value,flag);
-        break;
-    default:
-        break;
-    }
-    */
 }
