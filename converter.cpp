@@ -120,7 +120,7 @@ int main()
     int flag,l=1,count=1,l_pin,pin[28][10];
     int trace,l_odd=1,l_even=0,p_count=0;
     float container;
-    string  units[10]={"km","m","ft","in","cm","hr","min","sec","km/hr","ft/sec"};
+    string  units[10];
     string u1,u2;
     cout<<"CONVERTER\n";
     cout<<"Enter the value you want to convert\n";
@@ -128,7 +128,13 @@ int main()
     container=value;
     cout<<"Enter the units you want to convert from\n";
     cin>>u1>>u2;
-    
+    ifstream unit;
+    unit.open("units.txt");
+    for (int i = 0; i < 10; i++)
+    {
+        unit >> units[i];
+    }
+    unit.close();
     for (int i = 0; i < 10; i++)
     {
         if(u1==units[i])
@@ -303,5 +309,5 @@ int main()
         }
         cout<<"Result: "<<container<<units[q1-1]<<" = "<<value<<units[q2-1]<<"\n";
     }
-
+    
 }
