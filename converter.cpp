@@ -1,5 +1,6 @@
 #include<iostream>
 #include<fstream>
+#include <bits/stdc++.h> 
 using namespace std;
 int q1,q2;
 float value;
@@ -55,61 +56,67 @@ float in_to_cm(float value, int flag)
     }
     return value;
 }
-float hr_to_min(float value,int flag)
+float hr_to_min(float value,int flag,int i)
 {
     if(flag==1)
     {
-       if(q1==9 || q2==9)
+       if(i==0 || i==1)
        {
-           float deno=1;
-            value=(value/(deno*60));
+           value=value*60;
        }
        else
        {
-            value=value*60;
+            float deno=1;
+            value=(value/(deno*60));
+            
        }
        
     }
     else
     {
-        if (q1==9 || q2==9)
+        if (i==0 || i==1)
         {
-            float deno=1;
-            value=(value/(deno/60));
+            value=value/60;
+            
         }
         else
         {
-            value=value/60;
+            float deno=1;
+            value=(value/(deno/60));
+            
         }
         
         
     }
     return value;
 }
-float min_to_sec(float value, int flag)
+float min_to_sec(float value, int flag,int i)
 {
     if(flag==1)
     {
-        if(q1==9 || q2==9)
+        if(i==0 || i==1)
        {
-           float deno=1;
-            value=(value/(deno*60));
+           value=value*60;
+           
        }
        else
        {
-            value=value*60;
+           float deno=1;
+            value=(value/(deno*60)); 
        }
     }
     else
     {
-        if (q1==9 || q2==9)
+        if (i==0 || i==1)
         {
-            float deno=1;
-            value=(value/(deno/60));
+            value=value/60;
         }
         else
         {
-            value=value/60;
+            
+            float deno=1;
+            value=(value/(deno/60));
+            
         }
     }
     return value;
@@ -118,16 +125,17 @@ float min_to_sec(float value, int flag)
 int main()
 {
     int flag,l=1,count=1,l_pin,pin[28][10];
-    int trace,l_odd=1,l_even=0,p_count=0;
+    int trace,l_odd=1,l_even=0,p_count=0,index,arr_size[112];
     float container;
     string  units[10];
-    string u1,u2;
+    string u[2];
     cout<<"CONVERTER\n";
     cout<<"Enter the value you want to convert\n";
     cin>>value;
     container=value;
     cout<<"Enter the units you want to convert from\n";
-    cin>>u1>>u2;
+    cin>>u[0]>>u[1];
+    cout<<u[0]<<"/t"<<u[1]<<"\n";
     ifstream unit;
     unit.open("units.txt");
     for (int i = 0; i < 10; i++)
@@ -135,179 +143,201 @@ int main()
         unit >> units[i];
     }
     unit.close();
-    for (int i = 0; i < 10; i++)
+
+    string b[112][12];
+    string d[30][2];
+    string a[112];
+    string c[30];
+    fstream file;
+    fstream allocate; 
+    string word, t, q, filename; 
+    string path,assign;
+    int i=0,stop_count=0,length_count=0,word_count=0;
+    assign = "path_assign.txt";
+    allocate.open(assign.c_str());
+    while (allocate >> path)
     {
-        if(u1==units[i])
-        {
-            q1=i+1;
-            
-        }
-        else if (u2==units[i])
-        {
-            q2=i+1;
-            
-        }
+        c[i]=path;
+       
+        i++;
+        word_count++;
         
     }
-    
-    ifstream fin;
-    fin.open("path.txt");
-    for (int  i = 0; i < 12; i++)
+    file.close();
+    int k=0;
+    for (int i = 0; i < word_count/2; i++)
     {
         for (int j = 0; j < 2; j++)
         {
-            fin >> pin[i][j];
-            
+            d[i][j]=c[k];
+        
+            k++;
         }
         
         
-    }
-    for (int  i = 12; i < 22; i++)
-    {
-        for (int j = 0; j < 4; j++)
-        {
-            fin >> pin[i][j];
-            
-            
-        }
-        
-    }
-    for (int  i = 22; i < 26; i++)
-    {
-        for (int j = 0; j < 6; j++)
-        {
-            fin >> pin[i][j];
-            
-            
-        }
-       
-    }
-    for (int  i = 26; i < 28; i++)
-    {
-        for (int j = 0; j < 10; j++)
-        {
-            fin >> pin[i][j];
-            
-            
-        }
         
     }
     
-    fin.close();
-
-    int A[28],B[28],C[28],index,found=0;
-    ifstream allocate;
-    allocate.open("path_allocate.txt");
-    for (int i = 0; i < 28; i++)
-    {
-        allocate >> A[i];
-        allocate >> B[i];
-        allocate >> C[i];
+    i=0;
+    // filename of the file 
+    filename = "path_follow.txt"; 
+  
+    // opening file 
+    file.open(filename.c_str()); 
+  
+    // extracting words from the file 
+    while (file >> word) 
+    { 
         
-
-    }
-    allocate.close();
-
-    for (int i = 0; (i < 28) && found!=1; i++)
+        
+        a[i]=word;
+       
+        i++;
+    } 
+    file.close();
+    
+    i=0;
+     k=0;
+    for (int j = 0; j < 112; j++)
     {
-        if(A[i]==q1 && B[i]==q2)
+       if  (a[j]!="STOP")
+       {
+       b[i][k]=a[j];
+      
+       k++;
+       length_count++;
+       arr_size[i]=length_count;
+
+       }
+       else
+       {
+           b[i][k]=a[j];
+           i++;
+           k=0;
+           stop_count++;
+           length_count=0;
+       }
+
+       
+    }
+    
+    int j=0;  
+
+    int found;
+    for (int i = 0; i < word_count/2 && found!=1; i++)
+    {
+        if(d[i][0]==u[0] &&  d[i][1]==u[1])
         {
-            index=C[i];
-            trace=pin[index][0];
+            index=i;
             found=1;
-            
-            
-            if (index<12)
-            {
-                count=1;
-            }
-            else if (index>=12 && index<22)
-            {
-                count=2;
-            }
-            
-            else if(index>=22 && index<26)
-            {
-                count=3;
-            }
-            else
-            {
-                count=5;
-            }
-            
         }
         
     }
-
+   
+    i=0;
     if(found!=1)
     {
         cout<<"The following type of conversion is not possible\n";
     }
     else
     {
-        while (p_count<count)
+        while (p_count<arr_size[index]-1)
         {
-            switch (trace)
-            {   
-                case 1:
-                    
-                    flag=pin[index][l_odd];
-                    l_odd=l_odd+2;
-                    
+            
+            if(b[index][i]=="km" && b[index][i+1]=="m")
+            {
                 
-                    
-                    value=km_to_m(value,flag);
-                    break;
-                case 2:
-                    
-                    
-                    flag=pin[index][l_odd];
-                    l_odd=l_odd+2;
-                    
-                
-                    
-                    value=m_to_cm(value,flag);
-                    break;
-                case 3:
-                    
-                    flag=pin[index][l_odd];
-                    l_odd=l_odd+2;
-                    
-                
-                    
-                    value=ft_to_cm(value,flag);
-                    
-                    break;
-                case 4:
-                    
-                    flag=pin[index][l_odd];
-                    l_odd=l_odd+2;
-                    
-                
-                     
-                    value=in_to_cm(value,flag);
-                    break;
-                case 5:
-                    flag=pin[index][l_odd];
-                    l_odd=l_odd+2;
-                    value=hr_to_min(value,flag);
-                    break;
-                case 6:
-                    flag=pin[index][l_odd];
-                    l_odd=l_odd+2;
-                    value=min_to_sec(value,flag);
-                    break;
-                default:
-                    break;
+                flag=1;
+                value=km_to_m(value,flag);
+               
             }
-            l_even=l_even+2;
-            
-            trace=pin[index][l_even];
-            
+            else if (b[index][i]=="m" && b[index][i+1]=="km")
+            {
+                
+                flag=0;
+                value=km_to_m(value,flag);
+                
+                
+            }
+            else if (b[index][i]=="m" && b[index][i+1]=="cm")
+            {
+                
+                flag=1;
+                value=m_to_cm(value,flag);
+               
+            }
+            else if (b[index][i]=="cm" && b[index][i+1]=="m")
+            {
+                
+                flag=0;
+                value=m_to_cm(value,flag);
+                
+            }
+            else if (b[index][i]=="ft" && b[index][i+1]=="cm")
+            {
+                
+                flag=1;
+                value=ft_to_cm(value,flag);
+               
+            }
+            else if (b[index][i]=="cm" && b[index][i+1]=="ft")
+            {
+                
+                flag=0;
+                value=ft_to_cm(value,flag);
+               
+            }
+            else if (b[index][i]=="in" && b[index][i+1]=="cm")
+            {
+                
+                flag=1;
+                value=in_to_cm(value,flag);
+            }
+            else if (b[index][i]=="cm" && b[index][i+1]=="in")
+            {
+                
+                flag=0;
+                value=in_to_cm(value,flag);
+            }
+            else if (b[index][i]=="hr" && b[index][i+1]=="min")
+            {
+                
+                flag=1;
+                value=hr_to_min(value,flag,i);
+                
+            }
+            else if (b[index][i]=="min" && b[index][i+1]=="hr")
+            {
+                
+                flag=0;
+                value=hr_to_min(value,flag,i);
+              
+            }
+            else if (b[index][i]=="min" && b[index][i+1]=="s")
+            {
+                
+                flag=1;
+                value=min_to_sec(value,flag,i);
+                
+            }
+            else if (b[index][i]=="s" && b[index][i+1]=="min")
+            {
+                
+                flag=0;
+                value=min_to_sec(value,flag,i);
+                
+            }
+            else
+            {
+                i=i; 
+            }
+            i++;
             p_count++;
             
         }
-        cout<<"Result: "<<container<<units[q1-1]<<" = "<<value<<units[q2-1]<<"\n";
+        cout<<"Result: "<<container<<u[0]<<" = "<<value<<u[1]<<"\n";
     }
+   
+
     
 }
