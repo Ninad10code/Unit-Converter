@@ -1,0 +1,28 @@
+km m STOP
+m km STOP
+m cm STOP
+cm m STOP
+ft cm STOP
+cm ft STOP
+in cm STOP
+cm in STOP
+km m cm STOP
+cm m km STOP
+km m cm ft STOP
+ft cm m km STOP
+km m cm in STOP
+in cm m km STOP
+m cm ft STOP
+ft cm m STOP
+m cm in STOP
+in cm m STOP
+ft cm in STOP
+in cm ft STOP
+hr min STOP
+min hr STOP
+min s STOP
+s min STOP
+hr min s STOP
+s min hr STOP
+km m cm ft hr min s STOP
+ft cm m km s min hr STOP
