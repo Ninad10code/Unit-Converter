@@ -1,0 +1,6 @@
+1 km = 1000 m
+1 m = 100 cm
+1 ft = 30 cm
+1 in = 2.5 cm
+1 hr = 60 min
+1 min = 60 s
