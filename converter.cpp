@@ -4,138 +4,58 @@
 using namespace std;
 int q1,q2;
 float value;
-float km_to_m(float value,int flag){
-    //kilometer to meter and vice-versa function
-    if(flag==1)
-    {
-        value=value*1000;
-    }
-    else
-    {
-        value=value/1000;
-    }
-    return value;
-    cout<<value<<"\n";
-}
-float m_to_cm(float value,int flag)
-{
-    //meter to centimeter & vice-versa function
-    if(flag==1)
-    {
-        value=value*100;
-    }
-    else
-    {
-        value=value/100;
-    }
-    return value;
-}
-float ft_to_cm(float value, int flag)
-{
-    //feet to centimeter & vice-versa function
-    if(flag==1)
-    {
-        value=value*30;
-    }
-    else
-    {
-        value=value/30;
-    }
-    return value;
-}
-float in_to_cm(float value, int flag)
-{
-    //inches to centimeter & vice-versa function
-    if(flag==1)
-    {
-        value=value*2.5;
-    }
-    else
-    {
-        value=value/2.5;
-    }
-    return value;
-}
-float hr_to_min(float value,int flag,int i)
+float universal(float value,int flag,float lib_int,int trig)
 {
     if(flag==1)
     {
-       if(i==0 || i==1)
-       {
-           value=value*60;
-       }
-       else
-       {
-            float deno=1;
-            value=(value/(deno*60));
-            
-       }
-       
-    }
-    else
-    {
-        if (i==0 || i==1)
+        if (trig==0)
         {
-            value=value/60;
+            value=value*lib_int;
             
         }
         else
         {
             float deno=1;
-            value=(value/(deno/60));
+            value=value/(deno*lib_int);
             
         }
         
         
     }
-    return value;
-}
-float min_to_sec(float value, int flag,int i)
-{
-    if(flag==1)
+    else
     {
-        if(i==0 || i==1)
-       {
-           value=value*60;
+        if (trig==0)
+        {
+            value=value/lib_int;
+            
+        }
+        else
+        {
+            float deno=1;
+            value=value/(deno/lib_int);
            
-       }
-       else
-       {
-           float deno=1;
-            value=(value/(deno*60)); 
-       }
-    }
-    else
-    {
-        if (i==0 || i==1)
-        {
-            value=value/60;
         }
-        else
-        {
-            
-            float deno=1;
-            value=(value/(deno/60));
-            
-        }
+        
+        
     }
     return value;
+    
 }
 
 int main()
 {
-    int flag,l=1,count=1,l_pin,pin[28][10];
-    int trace,l_odd=1,l_even=0,p_count=0,index,arr_size[112];
+    int flag,l=1,count=1,l_pin,pin[28][10],calls=0,trig=0;
+    int trace,l_odd=1,l_even=0,p_count=0,index,arr_size[120];
     float container;
-    string  units[10];
-    string u[2];
+    string  units[10],lib[40];
+    string u[6],lib_str;
     cout<<"CONVERTER\n";
     cout<<"Enter the value you want to convert\n";
     cin>>value;
     container=value;
     cout<<"Enter the units you want to convert from\n";
     cin>>u[0]>>u[1];
-    cout<<u[0]<<"/t"<<u[1]<<"\n";
+    
     ifstream unit;
     unit.open("units.txt");
     for (int i = 0; i < 10; i++)
@@ -144,21 +64,35 @@ int main()
     }
     unit.close();
 
-    string b[112][12];
+    string b[120][12];
     string d[30][2];
-    string a[112];
+    string a[120];
     string c[30];
     fstream file;
-    fstream allocate; 
+    fstream allocate;
+    fstream data;
+    string library_file,library_path; 
     string word, t, q, filename; 
     string path,assign;
     int i=0,stop_count=0,length_count=0,word_count=0;
+    library_file = "library.txt";
+    data.open(library_file.c_str());
+    while (data >> library_path)
+    {
+        lib[i]=library_path;
+      
+        i++;
+    }
+    file.close();
+    
+
+    i=0;
     assign = "path_assign.txt";
     allocate.open(assign.c_str());
     while (allocate >> path)
     {
         c[i]=path;
-       
+        
         i++;
         word_count++;
         
@@ -170,10 +104,10 @@ int main()
         for (int j = 0; j < 2; j++)
         {
             d[i][j]=c[k];
-        
+            
             k++;
         }
-        
+      
         
         
     }
@@ -198,11 +132,11 @@ int main()
     
     i=0;
      k=0;
-    for (int j = 0; j < 112; j++)
+    for (int j = 0; j < 120; j++)
     {
        if  (a[j]!="STOP")
        {
-       b[i][k]=a[j];
+           b[i][k]=a[j];
       
        k++;
        length_count++;
@@ -217,12 +151,14 @@ int main()
            stop_count++;
            length_count=0;
        }
-
+       
+       
+       
        
     }
     
     int j=0;  
-
+    
     int found;
     for (int i = 0; i < word_count/2 && found!=1; i++)
     {
@@ -233,111 +169,73 @@ int main()
         }
         
     }
-   
+    
     i=0;
+    int reset=0;
     if(found!=1)
     {
         cout<<"The following type of conversion is not possible\n";
     }
     else
     {
-        while (p_count<arr_size[index]-1)
+        
+        calls=0;
+        while (calls<arr_size[index]-1)
         {
             
-            if(b[index][i]=="km" && b[index][i+1]=="m")
+            j=1;
+            k=4;
+            trace=0;
+            
+            while (trace!=1)
             {
+                if (b[index][i]==lib[j] && b[index][i+1]==lib[k])
+                {
+                    
+                    lib_str=lib[k-1];
+                    
+                    flag=1;
+                    trace=1;
+                }
+                else if (b[index][i]==lib[k] && b[index][i+1]==lib[j])
+                {
+                    trace=1;
+                    lib_str=lib[k-1];
+                    flag=0;
+                }
                 
-                flag=1;
-                value=km_to_m(value,flag);
-               
-            }
-            else if (b[index][i]=="m" && b[index][i+1]=="km")
-            {
+                else if(k>39 && reset<1)
+                {
+                   
+                    trig=1;
+                    
+                    i++;
+                    calls++;
+                    j=-4;
+                    k=-1;
+                    reset++;
+                }
+                j=j+5;
+                k=k+5;
                 
-                flag=0;
-                value=km_to_m(value,flag);
                 
                 
-            }
-            else if (b[index][i]=="m" && b[index][i+1]=="cm")
-            {
                 
-                flag=1;
-                value=m_to_cm(value,flag);
-               
-            }
-            else if (b[index][i]=="cm" && b[index][i+1]=="m")
-            {
-                
-                flag=0;
-                value=m_to_cm(value,flag);
-                
-            }
-            else if (b[index][i]=="ft" && b[index][i+1]=="cm")
-            {
-                
-                flag=1;
-                value=ft_to_cm(value,flag);
-               
-            }
-            else if (b[index][i]=="cm" && b[index][i+1]=="ft")
-            {
-                
-                flag=0;
-                value=ft_to_cm(value,flag);
-               
-            }
-            else if (b[index][i]=="in" && b[index][i+1]=="cm")
-            {
-                
-                flag=1;
-                value=in_to_cm(value,flag);
-            }
-            else if (b[index][i]=="cm" && b[index][i+1]=="in")
-            {
-                
-                flag=0;
-                value=in_to_cm(value,flag);
-            }
-            else if (b[index][i]=="hr" && b[index][i+1]=="min")
-            {
-                
-                flag=1;
-                value=hr_to_min(value,flag,i);
-                
-            }
-            else if (b[index][i]=="min" && b[index][i+1]=="hr")
-            {
-                
-                flag=0;
-                value=hr_to_min(value,flag,i);
-              
-            }
-            else if (b[index][i]=="min" && b[index][i+1]=="s")
-            {
-                
-                flag=1;
-                value=min_to_sec(value,flag,i);
-                
-            }
-            else if (b[index][i]=="s" && b[index][i+1]=="min")
-            {
-                
-                flag=0;
-                value=min_to_sec(value,flag,i);
-                
-            }
-            else
-            {
-                i=i; 
             }
             i++;
-            p_count++;
+            stringstream num (lib_str);
+            float lib_int;
+            num >> lib_int;
+            value = universal(value,flag,lib_int,trig);
+            calls++;
+            
+            
             
         }
         cout<<"Result: "<<container<<u[0]<<" = "<<value<<u[1]<<"\n";
     }
-   
+    
+    
 
     
 }
