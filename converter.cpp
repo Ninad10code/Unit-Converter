@@ -4,6 +4,12 @@
 using namespace std;
 int q1,q2;
 float value;
+struct units
+{
+    float value[5],result[5];
+    string converted_to[5];
+    int child_node;
+} link[100];
 float universal(float value,int flag,float lib_int,int trig)
 {
     if(flag==1)
@@ -44,25 +50,19 @@ float universal(float value,int flag,float lib_int,int trig)
 
 int main()
 {
-    int flag,l=1,count=1,l_pin,pin[28][10],calls=0,trig=0;
+    int flag,l=1,count=0,l_pin,pin[28][10],calls=0,trig=0;
     int trace,l_odd=1,l_even=0,p_count=0,index,arr_size[120];
     float container;
     string  units[10],lib[40];
-    string u[6],lib_str;
+    string u[6],lib_str,initial;
     cout<<"CONVERTER\n";
     cout<<"Enter the value you want to convert\n";
     cin>>value;
     container=value;
     cout<<"Enter the units you want to convert from\n";
     cin>>u[0]>>u[1];
+    initial=u[0];
     
-    ifstream unit;
-    unit.open("units.txt");
-    for (int i = 0; i < 10; i++)
-    {
-        unit >> units[i];
-    }
-    unit.close();
 
     string b[120][12];
     string d[30][2];
@@ -72,7 +72,7 @@ int main()
     fstream allocate;
     fstream data;
     string library_file,library_path; 
-    string word, t, q, filename; 
+    string word, t, filename; 
     string path,assign;
     int i=0,stop_count=0,length_count=0,word_count=0;
     library_file = "library.txt";
@@ -80,162 +80,209 @@ int main()
     while (data >> library_path)
     {
         lib[i]=library_path;
-      
+        
         i++;
+        count++;
     }
     file.close();
+    
     
 
+    int found=0,unfound=0;
+    
+    
     i=0;
-    assign = "path_assign.txt";
-    allocate.open(assign.c_str());
-    while (allocate >> path)
+    int reset=0,j=1,k=4,counter=0,search[30][2],track=0,check_count=0,execute=1,m=0,n=0,p=0,z=0,q=0,o=1;
+    float lib_int;
+    string check[10];
+    for (int i = 0; i < (count/5) && track!=1; i++)
     {
-        c[i]=path;
-        
-        i++;
-        word_count++;
-        
-    }
-    file.close();
-    int k=0;
-    for (int i = 0; i < word_count/2; i++)
-    {
-        for (int j = 0; j < 2; j++)
+        if(u[0]==lib[j] && u[1]==lib[k])
         {
-            d[i][j]=c[k];
+            track=1;
+            flag=1;
+            lib_str=lib[k-1];
+            stringstream num (lib_str);
+            num >> lib_int;
+           
+            link[0].result[0]=universal(value,flag,lib_int,trig);
+            cout<<container<<initial<<" = "<<link[0].result[0]<<u[1]<<"\n";
             
-            k++;
         }
-      
-        
-        
-    }
-    
-    i=0;
-    // filename of the file 
-    filename = "path_follow.txt"; 
-  
-    // opening file 
-    file.open(filename.c_str()); 
-  
-    // extracting words from the file 
-    while (file >> word) 
-    { 
-        
-        
-        a[i]=word;
-       
-        i++;
-    } 
-    file.close();
-    
-    i=0;
-     k=0;
-    for (int j = 0; j < 120; j++)
-    {
-       if  (a[j]!="STOP")
-       {
-           b[i][k]=a[j];
-      
-       k++;
-       length_count++;
-       arr_size[i]=length_count;
-
-       }
-       else
-       {
-           b[i][k]=a[j];
-           i++;
-           k=0;
-           stop_count++;
-           length_count=0;
-       }
-       
-       
-       
-       
-    }
-    
-    int j=0;  
-    
-    int found;
-    for (int i = 0; i < word_count/2 && found!=1; i++)
-    {
-        if(d[i][0]==u[0] &&  d[i][1]==u[1])
+        else if (u[0]==lib[k] && u[1]==lib[j])
         {
-            index=i;
-            found=1;
+            track=1;
+            flag=0;
+            lib_str=lib[k-1];
+            
+            stringstream num (lib_str);
+            num >> lib_int;
+          
+            link[0].result[0]=universal(value,flag,lib_int,trig);
+            cout<<container<<initial<<" = "<<link[0].result[0]<<u[1]<<"\n";
+       
+        }
+        else
+        {
+            j=j+5;
+            k=k+5;
         }
         
-    }
-    
-    i=0;
-    int reset=0;
-    if(found!=1)
-    {
-        cout<<"The following type of conversion is not possible\n";
-    }
-    else
-    {
         
-        calls=0;
-        while (calls<arr_size[index]-1)
+    }
+    check[0]=u[0];
+    
+    check_count++;
+   
+    
+    link[0].child_node=0;
+  
+    if(track==0)
+    {
+        while(found!=1)
         {
             
-            j=1;
-            k=4;
-            trace=0;
-            
-            while (trace!=1)
+            j=1;k=4;
+            for (int i = 0; i < (count/5) && trace!=1; i++)
             {
-                if (b[index][i]==lib[j] && b[index][i+1]==lib[k])
-                {
-                    
-                    lib_str=lib[k-1];
-                    
-                    flag=1;
-                    trace=1;
-                }
-                else if (b[index][i]==lib[k] && b[index][i+1]==lib[j])
-                {
-                    trace=1;
-                    lib_str=lib[k-1];
-                    flag=0;
-                }
                 
-                else if(k>39 && reset<1)
+                if (u[0]==lib[j])
                 {
-                   
-                    trig=1;
                     
-                    i++;
-                    calls++;
-                    j=-4;
-                    k=-1;
-                    reset++;
+                    for (int i = 0; i < check_count && execute!=0; i++)
+                    {
+                        if(check[i]==lib[j+3])
+                        {
+                            execute=0;
+                            
+                            
+                        }
+                    }
+                  
+                    if (execute==1)
+                    {
+                        flag=1;
+                        lib_str=lib[j+2];
+                        stringstream num (lib_str);
+                        num >> lib_int;
+                        
+                        link[m].result[n]=universal(value,flag,lib_int,trig);
+                        
+                        link[m].converted_to[n]=lib[j+3];
+                       
+                        check[o]=lib[j+3];
+                       
+                        check_count++;
+                       
+                        o++;
+                        
+                        link[m].child_node++;
+                       
+                        if (lib[j+3]==u[1])
+                        {
+                            trace=1;
+                            found=1;
+                            
+                            cout<<container<<initial<<" = "<<link[m].result[n]<<u[1]<<"\n";
+                        }
+                    }
+                    
+                    
+                    
+                }
+                else if (u[0]==lib[k])
+                {
+                 
+                    for (int i = 0; i < check_count; i++)
+                    {
+                        if(check[i]==lib[k-3])
+                        {
+                            
+                            execute=0;
+                            
+                        }
+                    }
+                    
+                    if (execute==1)
+                    {
+                        flag=0;
+                        lib_str=lib[k-1];
+                        stringstream num (lib_str);
+                        num >> lib_int;
+                       
+                        link[m].result[n]=universal(value,flag,lib_int,trig);
+                       
+                        link[m].converted_to[n]=lib[k-3];
+                        
+                        check[o]=lib[k-3];
+                        
+                        check_count++;
+                        
+                        o++;
+                       
+                        link[m].child_node++;
+                      
+                        if (lib[k-3]==u[1])
+                        {
+                            trace=1;
+                            found=1;
+                            cout<<container<<initial<<" = "<<link[m].result[n]<<u[1]<<"\n";
+                            
+                        }
+                    }
+                    
                 }
                 j=j+5;
                 k=k+5;
-                
-                
-                
+                execute=1;
                 
             }
-            i++;
-            stringstream num (lib_str);
-            float lib_int;
-            num >> lib_int;
-            value = universal(value,flag,lib_int,trig);
-            calls++;
+            m++;
+            n=0;
+            
+
+            link[m].child_node=0;
+            if (p<link[z].child_node)
+            {
+                if (value==0)
+                {
+                    cout<<"Cannot be calculated\n";
+                    found=1;
+                }
+                
+                u[0]=link[z].converted_to[q];
+                
+                value=link[z].result[q];
+                
+                q++;
+
+                p++;
+              
+            }
             
             
+            else
+            {
+                if (value==0)
+                {
+                    cout<<"Cannot be calculated\n";
+                    found=1;
+                }
+                q=0;
+                p=0;
+                u[0]=link[z].converted_to[q];
+                z++;
+              
+            }
             
+            
+        
         }
-        cout<<"Result: "<<container<<u[0]<<" = "<<value<<u[1]<<"\n";
     }
     
     
-
     
 }
+    
+    
+    
