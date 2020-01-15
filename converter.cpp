@@ -73,6 +73,7 @@ int main()
    
     
     fstream data;
+    
     string library_file,library_path; 
      
     
@@ -86,7 +87,7 @@ int main()
         i++;
         count++;
     }
-    file.close();
+    data.close();
     //library.txt closed
     
 
