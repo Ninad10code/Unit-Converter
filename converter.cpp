@@ -73,7 +73,6 @@ int main()
    
     
     fstream data;
-    
     string library_file,library_path; 
      
     
@@ -197,7 +196,7 @@ int main()
                         link[m].result[n]=universal(value,flag,lib_int,trig);
                         
                         link[m].converted_to[n]=lib[j+3];
-                       
+                        n++;
                         check[o]=lib[j+3];
                        //Every new converted unit gets added into check[o]
                         check_count++;
@@ -211,7 +210,7 @@ int main()
                             trace=1;
                             found=1;
                             
-                            cout<<container<<initial<<" = "<<link[m].result[n]<<u[1]<<"\n";
+                            cout<<container<<initial<<" = "<<link[m].result[n-1]<<u[1]<<"\n";
                         }
                     }
                     
@@ -244,7 +243,7 @@ int main()
                         link[m].result[n]=universal(value,flag,lib_int,trig);
                        
                         link[m].converted_to[n]=lib[k-3];
-                        
+                        n++;
                         check[o]=lib[k-3];
                         
                         check_count++;
@@ -257,7 +256,7 @@ int main()
                         {
                             trace=1;
                             found=1;
-                            cout<<container<<initial<<" = "<<link[m].result[n]<<u[1]<<"\n";
+                            cout<<container<<initial<<" = "<<link[m].result[n-1]<<u[1]<<"\n";
                             
                         }
                     }
