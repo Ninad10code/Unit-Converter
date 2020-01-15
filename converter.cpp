@@ -76,7 +76,7 @@ int main()
     string library_file,library_path; 
      
     
-    int i=0,stop_count=0,length_count=0,word_count=0;
+    int i=0;
     library_file = "library.txt";
     data.open(library_file.c_str());
     while (data >> library_path)
