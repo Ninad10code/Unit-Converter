@@ -275,7 +275,7 @@ int main()
             if (p<link[z].child_node)
             {
                 
-                if (value==0)
+                if (value==0 && container!=0)
                 {
                     cout<<"Cannot be calculated\n";
                     found=1;
@@ -299,7 +299,7 @@ int main()
             
             else
             {
-                if (value==0)
+                if (value==0 && container!=0)
                 {
                     cout<<"Cannot be calculated\n";
                     found=1;
